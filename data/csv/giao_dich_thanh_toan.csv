@@ -1,0 +1,225 @@
+MaGiaoDich,MaHD,CongThanhToan,MaGiaoDichCong,SoTien,ThoiGianGD,TrangThai,NoiDungChuyenKhoan
+1,1,VNPay,TXN_VNPAY_000001_DEP,4994593.89,2025-05-08 11:30:00,Thành công,Thanh toan tien coc hoa don #1
+2,1,VNPay,TXN_VNPAY_000001_BAL,5305406.11,2025-05-13 11:30:00,Thành công,Thanh toan phan con lai hoa don #1
+3,2,MoMo,TXN_MOMO_000002_DEP,13109752.21,2025-06-20 11:30:00,Thành công,Thanh toan tien coc hoa don #2
+4,2,MoMo,TXN_MOMO_000002_BAL,22230247.79,2025-06-25 11:30:00,Thành công,Thanh toan phan con lai hoa don #2
+5,3,VietQR,TXN_VIETQR_000003_DEP,3142804.84,2025-09-20 11:30:00,Thành công,Thanh toan tien coc hoa don #3
+6,3,VietQR,TXN_VIETQR_000003_BAL,4217195.16,2025-09-25 11:30:00,Thành công,Thanh toan phan con lai hoa don #3
+7,4,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000004_DEP,3655676.71,2025-12-25 11:30:00,Thành công,Thanh toan tien coc hoa don #4
+8,4,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000004_BAL,3834963.29,2025-12-30 11:30:00,Thành công,Thanh toan phan con lai hoa don #4
+9,5,VNPay,TXN_VNPAY_000005_DEP,17173752.4,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #5
+10,5,VNPay,TXN_VNPAY_000005_BAL,31606247.6,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #5
+11,6,MoMo,TXN_MOMO_000006_DEP,19455997.03,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #6
+12,6,MoMo,TXN_MOMO_000006_BAL,30284002.97,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #6
+13,7,VietQR,TXN_VIETQR_000007_DEP,18398730.36,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #7
+14,7,VietQR,TXN_VIETQR_000007_BAL,30981269.64,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #7
+15,8,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000008_DEP,29860395.16,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #8
+16,8,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000008_BAL,24619604.84,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #8
+17,9,VNPay,TXN_VNPAY_000009_DEP,23792955.28,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #9
+18,9,VNPay,TXN_VNPAY_000009_BAL,25587044.72,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #9
+19,10,MoMo,TXN_MOMO_000010_DEP,25383380.87,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #10
+20,10,MoMo,TXN_MOMO_000010_BAL,28736619.13,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #10
+21,11,VietQR,TXN_VIETQR_000011_DEP,18522091.2,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #11
+22,11,VietQR,TXN_VIETQR_000011_BAL,30257908.8,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #11
+23,12,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000012_DEP,26629106.52,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #12
+24,12,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000012_BAL,26830893.48,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #12
+25,13,VNPay,TXN_VNPAY_000013_DEP,21780829.65,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #13
+26,13,VNPay,TXN_VNPAY_000013_BAL,32699170.35,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #13
+27,14,MoMo,TXN_MOMO_000014_DEP,28032350.61,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #14
+28,14,MoMo,TXN_MOMO_000014_BAL,26087649.39,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #14
+29,15,VietQR,TXN_VIETQR_000015_DEP,29374333.48,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #15
+30,15,VietQR,TXN_VIETQR_000015_BAL,24745666.52,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #15
+31,16,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000016_DEP,25257937.7,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #16
+32,16,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000016_BAL,28862062.3,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #16
+33,17,VNPay,TXN_VNPAY_000017_DEP,20862589.5,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #17
+34,17,VNPay,TXN_VNPAY_000017_BAL,34235410.5,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #17
+35,18,MoMo,TXN_MOMO_000018_DEP,23293614.23,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #18
+36,18,MoMo,TXN_MOMO_000018_BAL,30316385.77,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #18
+37,19,VietQR,TXN_VIETQR_000019_DEP,29197249.07,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #19
+38,19,VietQR,TXN_VIETQR_000019_BAL,24322750.93,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #19
+39,20,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000020_DEP,23188348.39,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #20
+40,20,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000020_BAL,30781651.61,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #20
+41,21,VNPay,TXN_VNPAY_000021_DEP,21507462.23,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #21
+42,21,VNPay,TXN_VNPAY_000021_BAL,32972537.77,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #21
+43,22,MoMo,TXN_MOMO_000022_DEP,19117557.43,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #22
+44,22,MoMo,TXN_MOMO_000022_BAL,30262442.57,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #22
+45,23,VietQR,TXN_VIETQR_000023_DEP,22797105.51,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #23
+46,23,VietQR,TXN_VIETQR_000023_BAL,30812894.49,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #23
+47,24,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000024_DEP,20818634.41,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #24
+48,24,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000024_BAL,28411365.59,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #24
+49,25,VNPay,TXN_VNPAY_000025_DEP,20001660.92,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #25
+50,25,VNPay,TXN_VNPAY_000025_BAL,33008339.08,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #25
+51,26,MoMo,TXN_MOMO_000026_DEP,20993298.57,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #26
+52,26,MoMo,TXN_MOMO_000026_BAL,32016701.43,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #26
+53,27,VietQR,TXN_VIETQR_000027_DEP,21819619.2,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #27
+54,27,VietQR,TXN_VIETQR_000027_BAL,26960380.8,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #27
+55,28,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000028_DEP,18056810.99,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #28
+56,28,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000028_BAL,32078189.01,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #28
+57,29,VNPay,TXN_VNPAY_000029_DEP,22801310.25,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #29
+58,29,VNPay,TXN_VNPAY_000029_BAL,29556689.75,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #29
+59,30,MoMo,TXN_MOMO_000030_DEP,21967836.8,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #30
+60,30,MoMo,TXN_MOMO_000030_BAL,27772163.2,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #30
+61,31,VietQR,TXN_VIETQR_000031_DEP,27100637.17,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #31
+62,31,VietQR,TXN_VIETQR_000031_BAL,26359362.83,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #31
+63,32,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000032_DEP,27932290.13,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #32
+64,32,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000032_BAL,25527709.87,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #32
+65,33,VNPay,TXN_VNPAY_000033_DEP,21934676.8,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #33
+66,33,VNPay,TXN_VNPAY_000033_BAL,27805323.2,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #33
+67,34,MoMo,TXN_MOMO_000034_DEP,22133136.07,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #34
+68,34,MoMo,TXN_MOMO_000034_BAL,31386863.93,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #34
+69,35,VietQR,TXN_VIETQR_000035_DEP,20453589.94,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #35
+70,35,VietQR,TXN_VIETQR_000035_BAL,28926410.06,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #35
+71,36,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000036_DEP,27144163.02,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #36
+72,36,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000036_BAL,22235836.98,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #36
+73,37,VNPay,TXN_VNPAY_000037_DEP,22920323.98,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #37
+74,37,VNPay,TXN_VNPAY_000037_BAL,31199676.02,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #37
+75,38,MoMo,TXN_MOMO_000038_DEP,27705676.74,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #38
+76,38,MoMo,TXN_MOMO_000038_BAL,25304323.26,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #38
+77,39,VietQR,TXN_VIETQR_000039_DEP,29338087.18,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #39
+78,39,VietQR,TXN_VIETQR_000039_BAL,24781912.82,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #39
+79,40,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000040_DEP,28866687.26,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #40
+80,40,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000040_BAL,24143312.74,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #40
+81,41,VNPay,TXN_VNPAY_000041_DEP,20921006.87,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #41
+82,41,VNPay,TXN_VNPAY_000041_BAL,32238993.13,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #41
+83,42,MoMo,TXN_MOMO_000042_DEP,19560953.52,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #42
+84,42,MoMo,TXN_MOMO_000042_BAL,34199046.48,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #42
+85,43,VietQR,TXN_VIETQR_000043_DEP,21460977.9,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #43
+86,43,VietQR,TXN_VIETQR_000043_BAL,31549022.1,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #43
+87,44,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000044_DEP,27389706.4,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #44
+88,44,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000044_BAL,26220293.6,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #44
+89,45,VNPay,TXN_VNPAY_000045_DEP,21900384,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #45
+90,45,VNPay,TXN_VNPAY_000045_BAL,31619616,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #45
+91,46,MoMo,TXN_MOMO_000046_DEP,24354089.97,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #46
+92,46,MoMo,TXN_MOMO_000046_BAL,29165910.03,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #46
+93,47,VietQR,TXN_VIETQR_000047_DEP,23536440,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #47
+94,47,VietQR,TXN_VIETQR_000047_BAL,29473560,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #47
+95,48,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000048_DEP,28694132.19,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #48
+96,48,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000048_BAL,25425867.81,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #48
+97,49,VNPay,TXN_VNPAY_000049_DEP,25357034.1,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #49
+98,49,VNPay,TXN_VNPAY_000049_BAL,27652965.9,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #49
+99,50,MoMo,TXN_MOMO_000050_DEP,19797817.6,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #50
+100,50,MoMo,TXN_MOMO_000050_BAL,34322182.4,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #50
+101,51,VietQR,TXN_VIETQR_000051_DEP,29074707.2,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #51
+102,51,VietQR,TXN_VIETQR_000051_BAL,25045292.8,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #51
+103,52,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000052_DEP,19605826.4,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #52
+104,52,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000052_BAL,33404173.6,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #52
+105,53,VNPay,TXN_VNPAY_000053_DEP,22844452.03,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #53
+106,53,VNPay,TXN_VNPAY_000053_BAL,31275547.97,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #53
+107,54,MoMo,TXN_MOMO_000054_DEP,118322668.46,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #54
+108,54,MoMo,TXN_MOMO_000054_BAL,143292331.54,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #54
+109,55,VietQR,TXN_VIETQR_000055_DEP,126063595.7,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #55
+110,55,VietQR,TXN_VIETQR_000055_BAL,135041404.3,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #55
+111,56,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000056_DEP,106998053.23,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #56
+112,56,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000056_BAL,154106946.77,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #56
+113,57,VNPay,TXN_VNPAY_000057_DEP,142766609.6,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #57
+114,57,VNPay,TXN_VNPAY_000057_BAL,117888390.4,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #57
+115,58,MoMo,TXN_MOMO_000058_DEP,131224221.61,2025-07-11 11:30:00,Thành công,Thanh toan tien coc hoa don #58
+116,58,MoMo,TXN_MOMO_000058_BAL,129430778.39,2025-07-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #58
+117,59,VietQR,TXN_VIETQR_000059_DEP,136754072.79,2025-07-26 11:30:00,Thành công,Thanh toan tien coc hoa don #59
+118,59,VietQR,TXN_VIETQR_000059_BAL,123900927.21,2025-07-31 11:30:00,Thành công,Thanh toan phan con lai hoa don #59
+119,76,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000076_DEP,14215437.53,2025-06-11 11:30:00,Thành công,Thanh toan tien coc hoa don #76
+120,76,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000076_BAL,17034562.47,2025-06-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #76
+121,82,MoMo,TXN_MOMO_000082_DEP,2898901.99,2025-01-16 11:30:00,Thành công,Thanh toan tien coc hoa don #82
+122,82,MoMo,TXN_MOMO_000082_BAL,3225098.01,2025-01-21 11:30:00,Thành công,Thanh toan phan con lai hoa don #82
+123,87,VietQR,TXN_VIETQR_000087_DEP,5446902.69,2025-01-06 11:30:00,Thành công,Thanh toan tien coc hoa don #87
+124,87,VietQR,TXN_VIETQR_000087_BAL,4676097.31,2025-01-11 11:30:00,Thành công,Thanh toan phan con lai hoa don #87
+125,105,VNPay,TXN_VNPAY_000105_DEP,10021579.98,2025-09-21 11:30:00,Thành công,Thanh toan tien coc hoa don #105
+126,105,VNPay,TXN_VNPAY_000105_BAL,16228420.02,2025-09-26 11:30:00,Thành công,Thanh toan phan con lai hoa don #105
+127,128,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000128_DEP,2840296.13,2025-12-01 11:30:00,Thành công,Thanh toan tien coc hoa don #128
+128,128,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000128_BAL,2763703.87,2025-12-06 11:30:00,Thành công,Thanh toan phan con lai hoa don #128
+129,137,VNPay,TXN_VNPAY_000137_DEP,1755072.05,2025-10-16 11:30:00,Thành công,Thanh toan tien coc hoa don #137
+130,137,VNPay,TXN_VNPAY_000137_BAL,2660927.95,2025-10-21 11:30:00,Thành công,Thanh toan phan con lai hoa don #137
+131,176,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000176_DEP,2988328.14,2025-09-07 11:30:00,Thành công,Thanh toan tien coc hoa don #176
+132,176,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000176_BAL,2899671.86,2025-09-12 11:30:00,Thành công,Thanh toan phan con lai hoa don #176
+133,232,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000232_DEP,1348921.8,2025-09-05 11:30:00,Thành công,Thanh toan tien coc hoa don #232
+134,232,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000232_BAL,1601078.2,2025-09-10 11:30:00,Thành công,Thanh toan phan con lai hoa don #232
+135,238,MoMo,TXN_MOMO_000238_DEP,4580845.16,2025-12-17 11:30:00,Thành công,Thanh toan tien coc hoa don #238
+136,238,MoMo,TXN_MOMO_000238_BAL,4423154.84,2025-12-22 11:30:00,Thành công,Thanh toan phan con lai hoa don #238
+137,258,MoMo,TXN_MOMO_000258_DEP,3596215.16,2025-08-13 11:30:00,Thành công,Thanh toan tien coc hoa don #258
+138,258,MoMo,TXN_MOMO_000258_BAL,3667784.84,2025-08-18 11:30:00,Thành công,Thanh toan phan con lai hoa don #258
+139,285,VNPay,TXN_VNPAY_000285_DEP,1033072.71,2025-05-09 11:30:00,Thành công,Thanh toan tien coc hoa don #285
+140,285,VNPay,TXN_VNPAY_000285_BAL,1768927.29,2025-05-14 11:30:00,Thành công,Thanh toan phan con lai hoa don #285
+141,314,MoMo,TXN_MOMO_000314_DEP,1508120.77,2025-12-04 11:30:00,Thành công,Thanh toan tien coc hoa don #314
+142,314,MoMo,TXN_MOMO_000314_BAL,2091879.23,2025-12-09 11:30:00,Thành công,Thanh toan phan con lai hoa don #314
+143,319,VietQR,TXN_VIETQR_000319_DEP,2314392.37,2025-03-10 11:30:00,Thành công,Thanh toan tien coc hoa don #319
+144,319,VietQR,TXN_VIETQR_000319_BAL,3685607.63,2025-03-15 11:30:00,Thành công,Thanh toan phan con lai hoa don #319
+145,324,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000324_DEP,1912713.18,2025-07-06 11:30:00,Thành công,Thanh toan tien coc hoa don #324
+146,324,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000324_BAL,1591286.82,2025-07-11 11:30:00,Thành công,Thanh toan phan con lai hoa don #324
+147,343,VietQR,TXN_VIETQR_000343_DEP,1759976.54,2025-02-10 11:30:00,Thành công,Thanh toan tien coc hoa don #343
+148,343,VietQR,TXN_VIETQR_000343_BAL,2833023.46,2025-02-15 11:30:00,Thành công,Thanh toan phan con lai hoa don #343
+149,352,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000352_DEP,1095187.97,2025-12-17 11:30:00,Thành công,Thanh toan tien coc hoa don #352
+150,352,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000352_BAL,1966812.03,2025-12-22 11:30:00,Thành công,Thanh toan phan con lai hoa don #352
+151,378,MoMo,TXN_MOMO_000378_DEP,2719311.28,2025-02-02 11:30:00,Thành công,Thanh toan tien coc hoa don #378
+152,378,MoMo,TXN_MOMO_000378_BAL,4935688.72,2025-02-07 11:30:00,Thành công,Thanh toan phan con lai hoa don #378
+153,418,MoMo,TXN_MOMO_000418_DEP,3728031.07,2025-08-09 11:30:00,Thành công,Thanh toan tien coc hoa don #418
+154,418,MoMo,TXN_MOMO_000418_BAL,3439968.93,2025-08-14 11:30:00,Thành công,Thanh toan phan con lai hoa don #418
+155,438,MoMo,TXN_MOMO_000438_DEP,1364133.52,2025-10-18 11:30:00,Thành công,Thanh toan tien coc hoa don #438
+156,438,MoMo,TXN_MOMO_000438_BAL,1663866.48,2025-10-23 11:30:00,Thành công,Thanh toan phan con lai hoa don #438
+157,461,VNPay,TXN_VNPAY_000461_DEP,3170673.78,2025-11-02 11:30:00,Thành công,Thanh toan tien coc hoa don #461
+158,461,VNPay,TXN_VNPAY_000461_BAL,4399326.22,2025-11-07 11:30:00,Thành công,Thanh toan phan con lai hoa don #461
+159,479,VietQR,TXN_VIETQR_000479_DEP,3074008.82,2025-11-22 11:30:00,Thành công,Thanh toan tien coc hoa don #479
+160,479,VietQR,TXN_VIETQR_000479_BAL,4300991.18,2025-11-27 11:30:00,Thành công,Thanh toan phan con lai hoa don #479
+161,524,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000524_DEP,1621412.87,2025-10-04 11:30:00,Thành công,Thanh toan tien coc hoa don #524
+162,524,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000524_BAL,2794587.13,2025-10-09 11:30:00,Thành công,Thanh toan phan con lai hoa don #524
+163,546,MoMo,TXN_MOMO_000546_DEP,2950848.35,2025-06-22 11:30:00,Thành công,Thanh toan tien coc hoa don #546
+164,546,MoMo,TXN_MOMO_000546_BAL,2425151.65,2025-06-27 11:30:00,Thành công,Thanh toan phan con lai hoa don #546
+165,562,MoMo,TXN_MOMO_000562_DEP,1485555.82,2025-11-04 11:30:00,Thành công,Thanh toan tien coc hoa don #562
+166,562,MoMo,TXN_MOMO_000562_BAL,1464444.18,2025-11-09 11:30:00,Thành công,Thanh toan phan con lai hoa don #562
+167,572,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000572_DEP,1986143.23,2025-05-06 11:30:00,Thành công,Thanh toan tien coc hoa don #572
+168,572,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000572_BAL,2579856.77,2025-05-11 11:30:00,Thành công,Thanh toan phan con lai hoa don #572
+169,577,VNPay,TXN_VNPAY_000577_DEP,1335795.86,2025-08-07 11:30:00,Thành công,Thanh toan tien coc hoa don #577
+170,577,VNPay,TXN_VNPAY_000577_BAL,2248204.14,2025-08-12 11:30:00,Thành công,Thanh toan phan con lai hoa don #577
+171,598,MoMo,TXN_MOMO_000598_DEP,2232170.41,2025-03-10 11:30:00,Thành công,Thanh toan tien coc hoa don #598
+172,598,MoMo,TXN_MOMO_000598_BAL,2333829.59,2025-03-15 11:30:00,Thành công,Thanh toan phan con lai hoa don #598
+173,606,MoMo,TXN_MOMO_000606_DEP,2454383.28,2025-09-17 11:30:00,Thành công,Thanh toan tien coc hoa don #606
+174,606,MoMo,TXN_MOMO_000606_BAL,3577616.72,2025-09-22 11:30:00,Thành công,Thanh toan phan con lai hoa don #606
+175,618,MoMo,TXN_MOMO_000618_DEP,1684150.86,2025-03-11 11:30:00,Thành công,Thanh toan tien coc hoa don #618
+176,618,MoMo,TXN_MOMO_000618_BAL,2232849.14,2025-03-16 11:30:00,Thành công,Thanh toan phan con lai hoa don #618
+177,622,MoMo,TXN_MOMO_000622_DEP,2453394.71,2025-02-03 11:30:00,Thành công,Thanh toan tien coc hoa don #622
+178,622,MoMo,TXN_MOMO_000622_BAL,2346605.29,2025-02-08 11:30:00,Thành công,Thanh toan phan con lai hoa don #622
+179,672,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000672_DEP,1845504.46,2025-08-03 11:30:00,Thành công,Thanh toan tien coc hoa don #672
+180,672,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000672_BAL,1738495.54,2025-08-08 11:30:00,Thành công,Thanh toan phan con lai hoa don #672
+181,749,VNPay,TXN_VNPAY_000749_DEP,2481208.06,2025-01-06 11:30:00,Thành công,Thanh toan tien coc hoa don #749
+182,749,VNPay,TXN_VNPAY_000749_BAL,2111791.94,2025-01-11 11:30:00,Thành công,Thanh toan phan con lai hoa don #749
+183,774,MoMo,TXN_MOMO_000774_DEP,2281859.1,2025-11-19 11:30:00,Thành công,Thanh toan tien coc hoa don #774
+184,774,MoMo,TXN_MOMO_000774_BAL,3774140.9,2025-11-24 11:30:00,Thành công,Thanh toan phan con lai hoa don #774
+185,781,VNPay,TXN_VNPAY_000781_DEP,1471328.09,2025-01-31 11:30:00,Thành công,Thanh toan tien coc hoa don #781
+186,781,VNPay,TXN_VNPAY_000781_BAL,1572671.91,2025-02-05 11:30:00,Thành công,Thanh toan phan con lai hoa don #781
+187,817,VNPay,TXN_VNPAY_000817_DEP,1677665.05,2025-08-05 11:30:00,Thành công,Thanh toan tien coc hoa don #817
+188,817,VNPay,TXN_VNPAY_000817_BAL,1954334.95,2025-08-10 11:30:00,Thành công,Thanh toan phan con lai hoa don #817
+189,832,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000832_DEP,2183127.41,2025-02-26 11:30:00,Thành công,Thanh toan tien coc hoa don #832
+190,832,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000832_BAL,3888872.59,2025-03-03 11:30:00,Thành công,Thanh toan phan con lai hoa don #832
+191,846,MoMo,TXN_MOMO_000846_DEP,2385227.83,2025-08-04 11:30:00,Thành công,Thanh toan tien coc hoa don #846
+192,846,MoMo,TXN_MOMO_000846_BAL,3614772.17,2025-08-09 11:30:00,Thành công,Thanh toan phan con lai hoa don #846
+193,850,MoMo,TXN_MOMO_000850_DEP,2350169.37,2025-04-18 11:30:00,Thành công,Thanh toan tien coc hoa don #850
+194,850,MoMo,TXN_MOMO_000850_BAL,3253830.63,2025-04-23 11:30:00,Thành công,Thanh toan phan con lai hoa don #850
+195,851,VietQR,TXN_VIETQR_000851_DEP,2852184.47,2025-12-06 11:30:00,Thành công,Thanh toan tien coc hoa don #851
+196,851,VietQR,TXN_VIETQR_000851_BAL,2751815.53,2025-12-11 11:30:00,Thành công,Thanh toan phan con lai hoa don #851
+197,856,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000856_DEP,3098405.34,2025-12-22 11:30:00,Thành công,Thanh toan tien coc hoa don #856
+198,856,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000856_BAL,3906594.66,2025-12-27 11:30:00,Thành công,Thanh toan phan con lai hoa don #856
+199,878,MoMo,TXN_MOMO_000878_DEP,2953745.12,2025-08-23 11:30:00,Thành công,Thanh toan tien coc hoa don #878
+200,878,MoMo,TXN_MOMO_000878_BAL,4310254.88,2025-08-28 11:30:00,Thành công,Thanh toan phan con lai hoa don #878
+201,882,MoMo,TXN_MOMO_000882_DEP,3871386.06,2025-10-13 11:30:00,Thành công,Thanh toan tien coc hoa don #882
+202,882,MoMo,TXN_MOMO_000882_BAL,3523613.94,2025-10-18 11:30:00,Thành công,Thanh toan phan con lai hoa don #882
+203,910,MoMo,TXN_MOMO_000910_DEP,2226095.24,2025-09-16 11:30:00,Thành công,Thanh toan tien coc hoa don #910
+204,910,MoMo,TXN_MOMO_000910_BAL,2297904.76,2025-09-21 11:30:00,Thành công,Thanh toan phan con lai hoa don #910
+205,911,VietQR,TXN_VIETQR_000911_DEP,1678900.58,2025-05-16 11:30:00,Thành công,Thanh toan tien coc hoa don #911
+206,911,VietQR,TXN_VIETQR_000911_BAL,1383099.42,2025-05-21 11:30:00,Thành công,Thanh toan phan con lai hoa don #911
+207,912,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000912_DEP,1061362.31,2025-02-12 11:30:00,Thành công,Thanh toan tien coc hoa don #912
+208,912,Chuyển khoản ngân hàng,TXN_CHUYNKHO_000912_BAL,1740637.69,2025-02-17 11:30:00,Thành công,Thanh toan phan con lai hoa don #912
+209,927,VietQR,TXN_VIETQR_000927_DEP,1037126.8,2025-10-20 11:30:00,Thành công,Thanh toan tien coc hoa don #927
+210,927,VietQR,TXN_VIETQR_000927_BAL,1906873.2,2025-10-25 11:30:00,Thành công,Thanh toan phan con lai hoa don #927
+211,1005,VNPay,TXN_VNPAY_001005_DEP,1526760.02,2025-02-17 11:30:00,Thành công,Thanh toan tien coc hoa don #1005
+212,1005,VNPay,TXN_VNPAY_001005_BAL,2676239.98,2025-02-22 11:30:00,Thành công,Thanh toan phan con lai hoa don #1005
+213,1009,VNPay,TXN_VNPAY_001009_DEP,3334624.37,2025-05-17 11:30:00,Thành công,Thanh toan tien coc hoa don #1009
+214,1009,VNPay,TXN_VNPAY_001009_BAL,3368375.63,2025-05-22 11:30:00,Thành công,Thanh toan phan con lai hoa don #1009
+215,1068,Chuyển khoản ngân hàng,TXN_CHUYNKHO_001068_DEP,1710002.94,2025-04-09 11:30:00,Thành công,Thanh toan tien coc hoa don #1068
+216,1068,Chuyển khoản ngân hàng,TXN_CHUYNKHO_001068_BAL,2567997.06,2025-04-14 11:30:00,Thành công,Thanh toan phan con lai hoa don #1068
+217,1090,MoMo,TXN_MOMO_001090_DEP,1080804.64,2025-01-12 11:30:00,Thành công,Thanh toan tien coc hoa don #1090
+218,1090,MoMo,TXN_MOMO_001090_BAL,1771195.36,2025-01-17 11:30:00,Thành công,Thanh toan phan con lai hoa don #1090
+219,1112,Chuyển khoản ngân hàng,TXN_CHUYNKHO_001112_DEP,1328033.79,2025-01-08 11:30:00,Thành công,Thanh toan tien coc hoa don #1112
+220,1112,Chuyển khoản ngân hàng,TXN_CHUYNKHO_001112_BAL,1473966.21,2025-01-13 11:30:00,Thành công,Thanh toan phan con lai hoa don #1112
+221,1157,VNPay,TXN_VNPAY_001157_DEP,20235215.61,2025-01-03 11:30:00,Thành công,Thanh toan tien coc hoa don #1157
+222,1157,VNPay,TXN_VNPAY_001157_BAL,29764784.39,2025-01-08 11:30:00,Thành công,Thanh toan phan con lai hoa don #1157
+223,1177,VNPay,TXN_VNPAY_001177_DEP,1597392.64,2025-08-22 11:30:00,Thành công,Thanh toan tien coc hoa don #1177
+224,1177,VNPay,TXN_VNPAY_001177_BAL,2902607.36,2025-08-27 11:30:00,Thành công,Thanh toan phan con lai hoa don #1177
