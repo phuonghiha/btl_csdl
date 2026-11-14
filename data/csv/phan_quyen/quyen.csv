@@ -1,0 +1,21 @@
+MaQuyen,MaCode,TenQuyen,NhomQuyen
+1,PROFILE.READ_SELF,Xem hồ sơ của mình,Tài khoản
+2,PROFILE.UPDATE_SELF,Sửa hồ sơ của mình,Tài khoản
+3,BOOKING.CREATE,Tạo đặt phòng,Đặt phòng
+4,BOOKING.READ_SELF,Xem đặt phòng của mình,Đặt phòng
+5,BOOKING.CANCEL_SELF,Gửi yêu cầu hủy đặt phòng của mình,Đặt phòng
+6,BOOKING.READ_BRANCH,Xem đặt phòng trong chi nhánh,Đặt phòng
+7,BOOKING.CONFIRM,Xác nhận đặt phòng,Đặt phòng
+8,BOOKING.CHECKIN_OUT,Check-in và check-out,Đặt phòng
+9,ROOM.READ_BRANCH,Xem phòng chi nhánh,Phòng
+10,ROOM.MANAGE_BRANCH,Quản lý phòng và giá chi nhánh,Phòng
+11,SERVICE.READ_BRANCH,Xem dịch vụ chi nhánh,Dịch vụ
+12,SERVICE.RECORD_USE,Ghi nhận sử dụng dịch vụ,Dịch vụ
+13,SERVICE.MANAGE_BRANCH,Quản lý dịch vụ chi nhánh,Dịch vụ
+14,STAFF.READ_BRANCH,Xem nhân viên và lịch ca,Nhân sự
+15,STAFF.MANAGE_BRANCH,Quản lý nhân viên và phân ca,Nhân sự
+16,INVOICE.READ_SELF,Xem hóa đơn của mình,Tài chính
+17,INVOICE.READ_BRANCH,Xem hóa đơn chi nhánh,Tài chính
+18,INVOICE.MANAGE,Lập và điều chỉnh hóa đơn,Tài chính
+19,REPORT.READ_BRANCH,Xem báo cáo chi nhánh,Báo cáo
+20,SYSTEM.ALL,Toàn quyền quản trị hệ thống,Quản trị
