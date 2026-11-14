@@ -1,0 +1,6 @@
+MaVaiTro,MaCode,TenVaiTro,MoTa
+1,KHACH_HANG,Khách hàng,Chỉ truy cập hồ sơ đặt phòng và hóa đơn của chính mình
+2,LE_TAN,Lễ tân,Thao tác nghiệp vụ tại chi nhánh được phân công
+3,NHAN_VIEN_DICH_VU,Nhân viên dịch vụ,Xem ca và ghi nhận dịch vụ tại chi nhánh được phân công
+4,QUAN_LY_CHI_NHANH,Quản lý chi nhánh,Quản lý hoạt động tại chi nhánh được giao
+5,ADMIN,Quản trị hệ thống,Quản trị toàn hệ thống
