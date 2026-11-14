@@ -48,12 +48,12 @@ LINES TERMINATED BY '\n'
 IGNORE 1 LINES;
 ```
 
-Voi cac tep khac, thay duong dan va ten bang tuong ung. CSV duoc giu nguyen tu bo du lieu nguon; khong tu sua ma khoa truoc khi import.
+Voi cac tep khac, thay duong dan va ten bang tuong ung. CSV trong repo da duoc chuan hoa cac cot tien/ty le ve 2 chu so thap phan; cac cot boolean trong `goi_combo.csv` dung `1`/`0`. Ma khoa va ngay thang duoc giu nguyen, khong tu sua ma khoa truoc khi import.
 
 ## Luu y quan trong
 - `MaLP` la VARCHAR (LP001-LP006), khong phai so nguyen.
 - `MaMua` va `MaSuKienLe` la ma danh muc dang chuoi; khong ep thanh so.
-- `BANG_GIA.NgayBD/NgayKT` giu `MM-DD` theo CSV. Khong chuyen thanh DATE vi khong co nam.
+- `BANG_GIA.NgayBD/NgayKT` la `VARCHAR(80)`: phan lon gia tri la `MM-DD`, nhung mot so dong la mo ta ngay le am lich; khong ep cot nay thanh DATE hoac CHAR(5).
 - Cac cot ngay khac duoc luu DATE/DATETIME theo ISO trong CSV; hien thi theo ngay/thang/nam bang `DATE_FORMAT(cot,'%d/%m/%Y')`.
 - `VE_DIEN_TU.ThoiGianQuet` cho phep NULL.
 - `CT_DAT_PHONG.GiaThoaThuan` la gia thoa thuan cho ca thoi gian luu tru theo mo ta bo du lieu; khong nhan them so dem.
