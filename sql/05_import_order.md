@@ -51,16 +51,33 @@ Các tệp CSV nằm trong thư mục `data/csv/`. Cần nhập theo đúng th�
 
 Ví dụ dưới đây nhập dữ liệu từ `chi_nhanh.csv` vào bảng `CHI_NHANH`. Hãy chạy lệnh từ thư mục gốc của repository; nếu MySQL không tìm thấy tệp, hãy thay bằng đường dẫn tuyệt đối đến tệp trên máy của bạn.
 
+> **Lưu ý về ký tự xuống dòng:** Toàn bộ các tệp CSV trong `data/csv/` hiện dùng chuẩn xuống dòng Windows (`\r\n`). Cần dùng `LINES TERMINATED BY '\r\n'` để tránh dính ký tự `\r` vào cột cuối cùng của mỗi dòng.
+
 ```sql
 LOAD DATA LOCAL INFILE 'data/csv/chi_nhanh.csv'
 INTO TABLE CHI_NHANH
 CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\r\n'
 IGNORE 1 LINES;
 ```
 
-Với các tệp còn lại, thay tên tệp và tên bảng tương ứng theo bảng thứ tự ở trên. Trước khi nhập, cần bảo đảm thứ tự cột trong CSV trùng với thứ tự cột của bảng. Nếu thứ tự không trùng, hãy chỉ rõ danh sách cột trong câu lệnh nhập; không nhập trực tiếp theo vị trí mặc định.
+Đối với bảng có ô trống cần chuyển thành `NULL` (như cột `ThoiGianQuet` trong `ve_dien_tu.csv`), cần đọc qua biến tạm và dùng `NULLIF(..., '')` để tránh lỗi `Incorrect datetime value: ''` ở chế độ strict của MySQL:
+
+```sql
+LOAD DATA LOCAL INFILE 'data/csv/ve_dien_tu.csv'
+INTO TABLE VE_DIEN_TU
+CHARACTER SET utf8mb4
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 LINES
+(MaVe, MaDP, MaKH, MaLoaiVe, MaQR, NgaySuDung, GiaTien, TrangThai, @v_ThoiGianQuet)
+SET ThoiGianQuet = NULLIF(@v_ThoiGianQuet, '');
+```
+
+Có thể dùng sẵn tập lệnh [sql/06_import_csv.sql](06_import_csv.sql) đã cấu hình đầy đủ thứ tự nhập, `LINES TERMINATED BY '\r\n'` và `NULLIF` cho cả 21 bảng nghiệp vụ (chỉ cần chỉnh lại đường dẫn nếu không chạy từ thư mục gốc của repository).
+
+Với các tệp còn lại nếu nhập thủ công, thay tên tệp và tên bảng tương ứng theo bảng thứ tự ở trên. Trước khi nhập, cần bảo đảm thứ tự cột trong CSV trùng với thứ tự cột của bảng. Nếu thứ tự không trùng, hãy chỉ rõ danh sách cột trong câu lệnh nhập; không nhập trực tiếp theo vị trí mặc định.
 
 ### Quy tắc định dạng dữ liệu
 
@@ -70,7 +87,8 @@ Với các tệp còn lại, thay tên tệp và tên bảng tương ứng theo 
 - Các cột kiểu `DATE` dùng định dạng `YYYY-MM-DD`.
 - Các cột kiểu `DATETIME` dùng định dạng `YYYY-MM-DD HH:MM:SS`.
 - Hai cột `BANG_GIA.NgayBD` và `BANG_GIA.NgayKT` được lưu dưới dạng chuỗi `VARCHAR(80)`. Dữ liệu có thể là `MM-DD` hoặc mô tả ngày lễ âm lịch, vì vậy không chuyển hai cột này thành kiểu `DATE`.
-- Cột `VE_DIEN_TU.ThoiGianQuet` có thể để trống (NULL).
+- Cột `VE_DIEN_TU.ThoiGianQuet` có thể để trống (`NULL`) và phải xử lý qua `NULLIF(..., '')` khi dùng `LOAD DATA LOCAL INFILE`.
+- Ba tệp `loai_phong.csv`, `dich_vu.csv` và `khu_vui_choi.csv` có UTF-8 BOM ở đầu dòng tiêu đề. Khi dùng `LOAD DATA ... IGNORE 1 LINES`, dòng tiêu đề chứa BOM được bỏ qua tự động; nếu nhập bằng công cụ giao diện (như MySQL Workbench Wizard), cần kiểm tra ánh xạ cột đầu tiên để tránh lỗi tên cột dính ký tự BOM.
 - `CT_DAT_PHONG.GiaThoaThuan` là tổng giá thỏa thuận cho toàn bộ thời gian lưu trú, không phải giá mỗi đêm.
 
 **Lưu ý về giá trị trống:** Nếu CSV có ô trống ở cột cho phép NULL, hãy kiểm tra cách MySQL xử lý giá trị trống khi nhập. Không tự động thay ô trống bằng số 0 nếu ý nghĩa nghiệp vụ của nó là chưa có dữ liệu.

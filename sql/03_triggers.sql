@@ -15,7 +15,7 @@ DELIMITER $$
 
   Trigger trong file nay xu ly cac quy tac nghiep vu:
     1. Khong cho dat trung phong trong khoang thoi gian giao nhau.
-    2. Booking da xac nhan / hoa don da thanh toan se giu lich phong.
+    2. Booking da xac nhan / dang luu tru / hoa don da thanh toan se giu lich phong.
     3. Tien coc toi thieu 30% tong GiaThoaThuan cua cac phong trong booking.
     4. Tu dong cap nhat TongTien hoa don theo cac dong CT_HOA_DON.
 
@@ -41,7 +41,7 @@ BEGIN
     WHERE c.MaPhong = NEW.MaPhong
       AND d.MaDP <> NEW.MaDP
       AND (
-        d.TrangThai IN ('Đã xác nhận', 'Đã trả phòng')
+        d.TrangThai IN ('Đã xác nhận', 'Đang lưu trú')
         OR h.TrangThai = 'Đã thanh toán'
       )
       AND NEW.NgayCheckIn < c.NgayCheckOut
@@ -69,7 +69,7 @@ BEGIN
       AND c.MaCTDP <> OLD.MaCTDP
       AND d.MaDP <> NEW.MaDP
       AND (
-        d.TrangThai IN ('Đã xác nhận', 'Đã trả phòng')
+        d.TrangThai IN ('Đã xác nhận', 'Đang lưu trú')
         OR h.TrangThai = 'Đã thanh toán'
       )
       AND NEW.NgayCheckIn < c.NgayCheckOut
@@ -81,7 +81,7 @@ BEGIN
 END$$
 
 -- =========================================================
--- 3. KIEM TRA TRUNG LICH KHI XAC NHAN PHIEU DAT PHONG
+-- 3. KIEM TRA TRUNG LICH KHI XAC NHAN / CHECK-IN PHIEU DAT PHONG
 --    Dong thoi bat buoc co tien coc >= 30% gia tri phong dat.
 -- =========================================================
 DROP TRIGGER IF EXISTS trg_datphong_confirm_no_overlap$$
@@ -92,8 +92,8 @@ BEGIN
   DECLARE v_tong_gia_phong DECIMAL(16,2) DEFAULT 0;
   DECLARE v_tien_coc DECIMAL(16,2) DEFAULT NULL;
 
-  IF NEW.TrangThai = 'Đã xác nhận'
-     AND OLD.TrangThai <> 'Đã xác nhận' THEN
+  IF NEW.TrangThai IN ('Đã xác nhận', 'Đang lưu trú')
+     AND OLD.TrangThai NOT IN ('Đã xác nhận', 'Đang lưu trú') THEN
 
     -- Booking phai co it nhat mot phong.
     SELECT COALESCE(SUM(GiaThoaThuan), 0)
@@ -129,7 +129,7 @@ BEGIN
       WHERE a.MaDP = NEW.MaDP
         AND d.MaDP <> NEW.MaDP
         AND (
-          d.TrangThai IN ('Đã xác nhận', 'Đã trả phòng')
+          d.TrangThai IN ('Đã xác nhận', 'Đang lưu trú')
           OR h.TrangThai = 'Đã thanh toán'
         )
         AND a.NgayCheckIn < b.NgayCheckOut
@@ -199,7 +199,7 @@ BEGIN
        WHERE a.MaDP = NEW.MaDP
          AND d.MaDP <> NEW.MaDP
          AND (
-           d.TrangThai IN ('Đã xác nhận', 'Đã trả phòng')
+           d.TrangThai IN ('Đã xác nhận', 'Đang lưu trú')
            OR h.TrangThai = 'Đã thanh toán'
          )
          AND a.NgayCheckIn < b.NgayCheckOut
