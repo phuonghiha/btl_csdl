@@ -647,3 +647,214 @@ def test_customer_and_staff_service_orders_and_customer_tickets():
             cur.execute("DELETE FROM HOA_DON WHERE MaHD = %s", (ma_hd,))
             cur.execute("DELETE FROM CT_DAT_PHONG WHERE MaDP = %s", (ma_dp,))
             cur.execute("DELETE FROM DAT_PHONG WHERE MaDP = %s", (ma_dp,))
+
+
+def test_ai_rag_agent_and_rbac_scoping():
+    from app.services.agent_tools import validate_safe_readonly_sql
+
+    # 1) Public guest capabilities
+    pub_cap = client.get("/api/ai/capabilities")
+    assert pub_cap.status_code == 200, pub_cap.text
+    pub_json = pub_cap.json()
+    assert pub_json["mode"] == "public_concierge"
+    assert pub_json["rag_chunks_count"] > 5
+    assert "bi_branch_analytics" not in pub_json["allowed_tools"]
+    assert "run_safe_readonly_sql" not in pub_json["allowed_tools"]
+
+    # 2) Public room search + prefill action + RAG policy citations
+    room_chat = client.post(
+        "/api/ai/chat",
+        json={
+            "message": "Tìm phòng trống Đà Nẵng từ 2027-03-10 đến 2027-03-12 cho 2 người và quy định cọc 30%"
+        },
+    )
+    assert room_chat.status_code == 200, room_chat.text
+    rc_json = room_chat.json()
+    assert rc_json["mode"] == "public_concierge"
+    assert len(rc_json["citations"]) >= 1
+    assert any(t["tool"] == "search_available_rooms" for t in rc_json["tool_traces"])
+    if rc_json["suggested_action"]:
+        assert rc_json["suggested_action"]["type"] == "prefill_booking"
+        assert rc_json["suggested_action"]["ma_cn"] == 2
+        assert "Đà Nẵng" in rc_json["suggested_action"]["label"]
+
+    # 2b) Cross-branch highest room price ranking & zero technical/code leakage
+    for q in (
+        "Giá phòng đắt tiền nhất của từng chi nhánh?",
+        "Liệt kê từng phòng đắt tiền nhất của từng chi nhánh nhé?",
+    ):
+        rank_res = client.post("/api/ai/chat", json={"message": q})
+        assert rank_res.status_code == 200, rank_res.text
+        rj = rank_res.json()
+        assert any(t["tool"] == "room_price_rankings" for t in rj["tool_traces"])
+        assert "Chi nhánh 1" in rj["reply"]
+        assert "Chi nhánh 10" in rj["reply"]
+        assert "301, 301" not in rj["reply"]
+        assert "PQ-201, PQ-201" not in rj["reply"]
+        assert "erDiagram" not in rj["reply"]
+        assert "README.md" not in rj["reply"]
+        assert "```" not in rj["reply"]
+
+    # 2c) Huong A CPU RAG: Domain synonyms + per-branch metadata filtering + multi-turn carry-over
+    syn_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Muốn bỏ đặt phòng tại quầy có cần xác nhận OTP không?"},
+    )
+    assert syn_res.status_code == 200, syn_res.text
+    assert "OTP" in syn_res.json()["reply"]
+
+    pq_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Ở Phú Quốc có trò chơi và vé cổng nào?"},
+    )
+    assert pq_res.status_code == 200, pq_res.text
+    assert any(c.get("ma_cn") == 3 for c in pq_res.json()["citations"])
+
+    ctx_res = client.post(
+        "/api/ai/chat",
+        json={
+            "message": "Ở đó có khu vui chơi và dịch vụ gì?",
+            "history": [
+                {"role": "user", "content": "Tìm phòng trống Đà Nẵng từ 2027-03-10 đến 2027-03-12"}
+            ],
+        },
+    )
+    assert ctx_res.status_code == 200, ctx_res.text
+    assert "Đà Nẵng" in ctx_res.json()["reply"] or "Danang" in ctx_res.json()["reply"]
+
+    # 2d) Regression checks from real chatbot_log.csv cases (no substring hijack + clear per-night pricing)
+    dn_price_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Phòng Superior tại Đà Nẵng còn trống từ 2026-06-10 đến 2026-06-12 cho 2 người, giá khoảng bao nhiêu?"},
+    )
+    assert dn_price_res.status_code == 200, dn_price_res.text
+    assert "/đêm" in dn_price_res.json()["reply"]
+    assert "2 đêm" in dn_price_res.json()["reply"]
+
+    pay_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Khi đặt phòng trực tiếp tại khách sạn có thể thanh toán bằng tiền mặt không?"},
+    )
+    assert pay_res.status_code == 200, pay_res.text
+    assert "Tiền mặt" in pay_res.json()["reply"]
+    assert not any(t["tool"] == "search_available_rooms" for t in pay_res.json()["tool_traces"])
+
+    mod_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Tôi đã đặt phòng nhưng muốn thay đổi ngày nhận phòng thì có bị tính thêm phí không?"},
+    )
+    assert mod_res.status_code == 200, mod_res.text
+    assert not any(t["tool"] == "rbac_guard" for t in mod_res.json()["tool_traces"])
+    assert not any(t["tool"] == "search_available_rooms" for t in mod_res.json()["tool_traces"])
+
+    fee_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Tổng chi phí bao gồm những gì, có tính thêm phí dịch vụ hay thuế không?"},
+    )
+    assert fee_res.status_code == 200, fee_res.text
+    assert not any(t["tool"] == "get_catalog_highlights" for t in fee_res.json()["tool_traces"])
+
+    err_v_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Tôi nhập mã ưu đãi nhưng hệ thống thông báo mã không hợp lệ thì cần xử lý như thế nào?"},
+    )
+    assert err_v_res.status_code == 200, err_v_res.text
+    assert not any(t["tool"] == "get_my_bookings_and_notifications" for t in err_v_res.json()["tool_traces"])
+
+    # 2e) Holistic semantic routing: regional query, room-type priority, greeting/out-of-scope, no history bleed
+    reg_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Ở miền Trung khách sạn có những chi nhánh nào vậy?"},
+    )
+    assert reg_res.status_code == 200, reg_res.text
+    for expected_city in ("Đà Nẵng", "Hội An", "Huế"):
+        assert expected_city in reg_res.json()["reply"]
+
+    tier_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Nha Trang ngày 15 tháng 6 có phòng gia đình 4 người không, ưu tiên Family"},
+    )
+    assert tier_res.status_code == 200, tier_res.text
+    assert "Family" in tier_res.json()["reply"]
+    assert "Nha Trang" in tier_res.json()["reply"]
+
+    oos_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Viết giúp mình code Python sắp xếp mảng nhanh"},
+    )
+    assert oos_res.status_code == 200, oos_res.text
+    assert oos_res.json()["tool_traces"][0]["args"]["intent"] == "out_of_scope"
+
+    greet_res = client.post(
+        "/api/ai/chat",
+        json={"message": "Xin chào bạn hỗ trợ được gì nhỉ?"},
+    )
+    assert greet_res.status_code == 200, greet_res.text
+    assert greet_res.json()["tool_traces"][0]["args"]["intent"] == "greeting_or_help"
+
+    no_bleed_res = client.post(
+        "/api/ai/chat",
+        json={
+            "message": "Quẹt thẻ hay trả tiền mặt trực tiếp tại lễ tân có được không?",
+            "history": [{"role": "user", "content": "Tìm phòng Phú Quốc 2026-08-10 đến 2026-08-12"}],
+        },
+    )
+    assert no_bleed_res.status_code == 200, no_bleed_res.text
+    assert "Tiền mặt" in no_bleed_res.json()["reply"]
+    assert not any(t["tool"] == "search_available_rooms" for t in no_bleed_res.json()["tool_traces"])
+
+    # 3) Customer RBAC: cannot access BI analytics, can access customer concierge
+    khach_tok = _login("khach_an")
+    kh_cap = client.get("/api/ai/capabilities", headers=_headers(khach_tok))
+    assert kh_cap.status_code == 200
+    assert kh_cap.json()["mode"] == "customer_concierge"
+    assert "get_my_bookings_and_notifications" in kh_cap.json()["allowed_tools"]
+    assert "bi_branch_analytics" not in kh_cap.json()["allowed_tools"]
+
+    kh_bi = client.post(
+        "/api/ai/chat",
+        json={"message": "Xem báo cáo doanh thu BI toàn hệ thống"},
+        headers=_headers(khach_tok),
+    )
+    assert kh_bi.status_code == 200, kh_bi.text
+    assert any(t["tool"] == "rbac_guard" for t in kh_bi.json()["tool_traces"])
+
+    # 4) Branch manager RBAC: BI analytics scoped to CN #1 only, no raw SQL
+    mgr_tok = _login("quanly_cn1")
+    mgr_cap = client.get("/api/ai/capabilities", headers=_headers(mgr_tok))
+    assert mgr_cap.status_code == 200
+    assert mgr_cap.json()["mode"] == "ops_bi_analyst"
+    assert "bi_branch_analytics" in mgr_cap.json()["allowed_tools"]
+    assert "run_safe_readonly_sql" not in mgr_cap.json()["allowed_tools"]
+
+    mgr_bi = client.post(
+        "/api/ai/chat",
+        json={"message": "Tóm tắt doanh thu và công suất phòng các chi nhánh được phép xem"},
+        headers=_headers(mgr_tok),
+    )
+    assert mgr_bi.status_code == 200, mgr_bi.text
+    assert any(t["tool"] == "bi_branch_analytics" for t in mgr_bi.json()["tool_traces"])
+    assert "CN 1" in mgr_bi.json()["reply"]
+    assert "CN 2" not in mgr_bi.json()["reply"]
+
+    # 5) Admin safe read-only SQL + guardrails
+    admin_tok = _login("admin_hethong")
+    adm_sql = client.post(
+        "/api/ai/chat",
+        json={"message": "Chạy SQL thống kê top 5 loại phòng có giá niêm yết cao nhất"},
+        headers=_headers(admin_tok),
+    )
+    assert adm_sql.status_code == 200, adm_sql.text
+    assert adm_sql.json()["sql_preview"] is not None
+    assert any(t["tool"] == "run_safe_readonly_sql" for t in adm_sql.json()["tool_traces"])
+
+    for bad_sql in (
+        "DELETE FROM DAT_PHONG WHERE MaDP = 1",
+        "SELECT * FROM TAI_KHOAN LIMIT 5",
+        "SELECT 1; DROP TABLE DAT_PHONG",
+    ):
+        try:
+            validate_safe_readonly_sql(bad_sql)
+            assert False, f"Expected ValueError for unsafe SQL: {bad_sql}"
+        except ValueError:
+            pass

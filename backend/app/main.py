@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 
 from .config import get_settings
 from .db import get_cursor
-from .routers import admin, auth, bank_webhook, bookings, catalog, finance, notifications, operations
+from .routers import admin, ai_agent, auth, bank_webhook, bookings, catalog, finance, notifications, operations
 
 settings = get_settings()
 
@@ -145,3 +145,4 @@ app.include_router(finance.router)
 app.include_router(admin.router)
 app.include_router(bank_webhook.router)
 app.include_router(notifications.router)
+app.include_router(ai_agent.router)

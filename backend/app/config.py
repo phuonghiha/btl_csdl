@@ -29,6 +29,8 @@ class Settings:
         self.bank_account_no: str = os.getenv("BANK_ACCOUNT_NO", "0383356237")
         self.bank_account_name: str = os.getenv("BANK_ACCOUNT_NAME", "VU NAM KHANH")
         self.bank_webhook_secret: str = os.getenv("BANK_WEBHOOK_SECRET", "btl-bank-webhook-secret-demo")
+        self.gemini_api_key: str = os.getenv("GEMINI_API_KEY", "").strip()
+        self.gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash").strip() or "gemini-2.5-flash"
 
 
 @lru_cache

@@ -11,6 +11,7 @@ import {
   UserCheck,
 } from "lucide-react";
 import { apiFetch, getStoredToken, setStoredToken } from "./api/client";
+import AiAssistantWidget from "./components/AiAssistantWidget";
 import LoginModal from "./components/LoginModal";
 import NotificationModal from "./components/NotificationModal";
 import PaymentQrModal from "./components/PaymentQrModal";
@@ -58,6 +59,7 @@ export default function App() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [notifLoading, setNotifLoading] = useState(false);
   const [notifQrTarget, setNotifQrTarget] = useState({ maHd: null, initialQr: null });
+  const [aiPrefill, setAiPrefill] = useState(null);
 
   const loadNotifications = useCallback(async () => {
     if (!user?.MaKH) {
@@ -276,7 +278,7 @@ export default function App() {
         ) : (
           <>
             {activeTab === "booking" && (
-              <BookingPortalPage user={user} onRequireLogin={() => setLoginOpen(true)} />
+              <BookingPortalPage user={user} onRequireLogin={() => setLoginOpen(true)} aiPrefill={aiPrefill} />
             )}
             {activeTab === "frontdesk" && <FrontDeskPage user={user} />}
             {activeTab === "scanner" && (
@@ -314,6 +316,13 @@ export default function App() {
         onClose={() => setNotifQrTarget({ maHd: null, initialQr: null })}
         onPaid={() => {
           loadNotifications();
+        }}
+      />
+      <AiAssistantWidget
+        user={user}
+        onApplyBookingSuggestion={(sug) => {
+          setAiPrefill({ ...sug, ts: Date.now() });
+          setActiveTab("booking");
         }}
       />
     </div>

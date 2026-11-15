@@ -127,6 +127,23 @@ def get_current_user(
     return user
 
 
+def get_optional_user(
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+) -> dict[str, Any] | None:
+    if not credentials:
+        return None
+    cfg = get_settings()
+    try:
+        payload = jwt.decode(credentials.credentials, cfg.jwt_secret, algorithms=["HS256"])
+        ma_tk = int(payload["sub"])
+    except (jwt.PyJWTError, KeyError, ValueError):
+        return None
+    user = load_user_profile(ma_tk)
+    if not user or user["TrangThai"] != "Hoạt động":
+        return None
+    return user
+
+
 def require_permission(permission_code: str):
     def _dep(user: dict[str, Any] = Depends(get_current_user)) -> dict[str, Any]:
         if user["is_admin"] or permission_code in user["permissions"]:

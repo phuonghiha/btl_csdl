@@ -32,7 +32,7 @@ function getNextDay(dateStr) {
   return next.toISOString().slice(0, 10);
 }
 
-export default function BookingPortalPage({ user, onRequireLogin }) {
+export default function BookingPortalPage({ user, onRequireLogin, aiPrefill }) {
   const [branches, setBranches] = useState([]);
   const [combos, setCombos] = useState([]);
   const [ticketTypes, setTicketTypes] = useState([]);
@@ -114,6 +114,26 @@ export default function BookingPortalPage({ user, onRequireLogin }) {
       .then((res) => setHolidayInfo(res || { is_holiday: false, holiday_names: [], holiday_dates: [] }))
       .catch(() => setHolidayInfo({ is_holiday: false, holiday_names: [], holiday_dates: [] }));
   }, [checkIn, checkOut]);
+
+  useEffect(() => {
+    if (!aiPrefill?.ma_cn || !aiPrefill?.ngay_checkin || !aiPrefill?.ngay_checkout) return;
+    setMaCn(Number(aiPrefill.ma_cn));
+    setCheckIn(aiPrefill.ngay_checkin);
+    setCheckOut(aiPrefill.ngay_checkout);
+    setBookingRoom(null);
+    setError("");
+    setSearching(true);
+    apiFetch(
+      `/api/bookings/availability?ma_cn=${aiPrefill.ma_cn}&ngay_checkin=${aiPrefill.ngay_checkin}&ngay_checkout=${aiPrefill.ngay_checkout}&suc_chua=${sucChua}`
+    )
+      .then((data) => {
+        setRooms(data || []);
+        setSearched(true);
+        setNotice("Đã áp dụng gợi ý tìm phòng từ Trợ lý AI.");
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setSearching(false));
+  }, [aiPrefill]);
 
   useEffect(() => {
     const hasAmusement = Boolean(selectedTicketTypeId);
