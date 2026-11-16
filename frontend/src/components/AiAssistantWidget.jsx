@@ -9,6 +9,41 @@ import {
 } from "lucide-react";
 import { apiFetch } from "../api/client";
 
+const CHAT_STORAGE_PREFIX = "aurelia_ai_chat";
+const MAX_CACHED_MESSAGES = 60;
+
+function getChatStorageKey(userId) {
+  return userId ? `${CHAT_STORAGE_PREFIX}:user:${userId}` : `${CHAT_STORAGE_PREFIX}:guest`;
+}
+
+function readCachedMessages(userId) {
+  try {
+    const raw = localStorage.getItem(getChatStorageKey(userId));
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeCachedMessages(userId, list) {
+  try {
+    const safeList = Array.isArray(list) ? list.slice(-MAX_CACHED_MESSAGES) : [];
+    localStorage.setItem(getChatStorageKey(userId), JSON.stringify(safeList));
+  } catch {
+    // ignore storage quota errors
+  }
+}
+
+function clearCachedMessages(userId) {
+  try {
+    localStorage.removeItem(getChatStorageKey(userId));
+  } catch {
+    // ignore storage errors
+  }
+}
+
 const MODE_META = {
   ops_bi_analyst: {
     label: "Ops & BI Analyst",
@@ -57,9 +92,14 @@ function renderFormattedText(text) {
 }
 
 export default function AiAssistantWidget({ user, onApplyBookingSuggestion }) {
+  const userId = user?.MaTK ?? null;
+  const activeUserIdRef = useRef(userId);
+  activeUserIdRef.current = userId;
+
   const [open, setOpen] = useState(false);
   const [capabilities, setCapabilities] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => readCachedMessages(userId));
+  const [historyLoading, setHistoryLoading] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -77,7 +117,40 @@ export default function AiAssistantWidget({ user, onApplyBookingSuggestion }) {
     return () => {
       active = false;
     };
-  }, [user]);
+  }, [userId]);
+
+  useEffect(() => {
+    let active = true;
+    const cached = readCachedMessages(userId);
+    setMessages(cached);
+    setError("");
+
+    if (!userId) {
+      setHistoryLoading(false);
+      return () => {
+        active = false;
+      };
+    }
+
+    setHistoryLoading(true);
+    apiFetch("/api/ai/history")
+      .then((res) => {
+        if (!active || activeUserIdRef.current !== userId) return;
+        const serverItems = Array.isArray(res?.items) ? res.items : [];
+        setMessages(serverItems);
+        writeCachedMessages(userId, serverItems);
+      })
+      .catch(() => {
+        // Keep optimistic local cache if server history fetch fails transiently
+      })
+      .finally(() => {
+        if (active) setHistoryLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [userId]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -88,10 +161,25 @@ export default function AiAssistantWidget({ user, onApplyBookingSuggestion }) {
   const modeKey = capabilities?.mode || (user ? (user.MaKH ? "customer_concierge" : "ops_bi_analyst") : "public_concierge");
   const modeMeta = MODE_META[modeKey] || MODE_META.public_concierge;
 
+  async function handleClearHistory() {
+    const targetUserId = userId;
+    setError("");
+    clearCachedMessages(targetUserId);
+    setMessages([]);
+    if (targetUserId) {
+      try {
+        await apiFetch("/api/ai/history", { method: "DELETE" });
+      } catch {
+        // ignore transient errors
+      }
+    }
+  }
+
   async function sendQuestion(questionText) {
     const clean = (questionText ?? input).trim();
     if (!clean || loading) return;
 
+    const targetUserId = userId;
     setError("");
     const userMsg = { role: "user", content: clean };
     const nextHistory = [...messages, userMsg];
@@ -111,19 +199,21 @@ export default function AiAssistantWidget({ user, onApplyBookingSuggestion }) {
           history: historyPayload,
         }),
       });
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: res.reply,
-          mode: res.mode,
-          engine: res.engine,
-          citations: res.citations || [],
-          tool_traces: res.tool_traces || [],
-          sql_preview: res.sql_preview || null,
-          suggested_action: res.suggested_action || null,
-        },
-      ]);
+      const assistantMsg = {
+        role: "assistant",
+        content: res.reply,
+        mode: res.mode,
+        engine: res.engine,
+        citations: res.citations || [],
+        tool_traces: res.tool_traces || [],
+        sql_preview: res.sql_preview || null,
+        suggested_action: res.suggested_action || null,
+      };
+      const updatedMessages = [...nextHistory, assistantMsg];
+      writeCachedMessages(targetUserId, updatedMessages);
+      if (activeUserIdRef.current === targetUserId) {
+        setMessages(updatedMessages);
+      }
     } catch (err) {
       setError(err.message || "Không thể kết nối Trợ lý AI.");
     } finally {
@@ -185,10 +275,7 @@ export default function AiAssistantWidget({ user, onApplyBookingSuggestion }) {
               {messages.length > 0 && (
                 <button
                   type="button"
-                  onClick={() => {
-                    setMessages([]);
-                    setError("");
-                  }}
+                  onClick={handleClearHistory}
                   className="p-1.5 rounded-lg text-stone-300 hover:text-white hover:bg-stone-800"
                   title="Xóa hội thoại"
                 >
@@ -208,7 +295,11 @@ export default function AiAssistantWidget({ user, onApplyBookingSuggestion }) {
 
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-3.5 space-y-3 bg-stone-50">
-            {messages.length === 0 ? (
+            {historyLoading && messages.length === 0 ? (
+              <div className="rounded-xl bg-white border border-stone-200 p-3 text-xs text-stone-500">
+                Đang khôi phục lịch sử hội thoại...
+              </div>
+            ) : messages.length === 0 ? (
               <div className="space-y-3">
                 <div className="rounded-xl bg-white border border-stone-200 p-3 text-xs text-stone-700 leading-relaxed">
                   <div className="font-semibold text-stone-900 mb-1">Xin chào!</div>

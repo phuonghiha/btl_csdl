@@ -649,8 +649,12 @@ def test_customer_and_staff_service_orders_and_customer_tickets():
             cur.execute("DELETE FROM DAT_PHONG WHERE MaDP = %s", (ma_dp,))
 
 
-def test_ai_rag_agent_and_rbac_scoping():
+def test_ai_rag_agent_and_rbac_scoping(monkeypatch):
+    from app.config import get_settings
     from app.services.agent_tools import validate_safe_readonly_sql
+
+    # Ensure deterministic local engine tests do not call external Gemini API during offline CI
+    monkeypatch.setattr(get_settings(), "gemini_api_key", "")
 
     # 1) Public guest capabilities
     pub_cap = client.get("/api/ai/capabilities")
@@ -778,12 +782,13 @@ def test_ai_rag_agent_and_rbac_scoping():
     assert "Family" in tier_res.json()["reply"]
     assert "Nha Trang" in tier_res.json()["reply"]
 
-    oos_res = client.post(
-        "/api/ai/chat",
-        json={"message": "Viết giúp mình code Python sắp xếp mảng nhanh"},
-    )
-    assert oos_res.status_code == 200, oos_res.text
-    assert oos_res.json()["tool_traces"][0]["args"]["intent"] == "out_of_scope"
+    for oos_q in (
+        "Viết giúp mình code Python sắp xếp mảng nhanh",
+        "Hôm nay thời tiết Hà Nội bao nhiêu độ?",
+    ):
+        oos_res = client.post("/api/ai/chat", json={"message": oos_q})
+        assert oos_res.status_code == 200, oos_res.text
+        assert oos_res.json()["tool_traces"][0]["args"]["intent"] == "out_of_scope"
 
     greet_res = client.post(
         "/api/ai/chat",
@@ -851,6 +856,7 @@ def test_ai_rag_agent_and_rbac_scoping():
     for bad_sql in (
         "DELETE FROM DAT_PHONG WHERE MaDP = 1",
         "SELECT * FROM TAI_KHOAN LIMIT 5",
+        "SELECT * FROM AI_CHAT_LICH_SU LIMIT 5",
         "SELECT 1; DROP TABLE DAT_PHONG",
     ):
         try:
@@ -858,3 +864,36 @@ def test_ai_rag_agent_and_rbac_scoping():
             assert False, f"Expected ValueError for unsafe SQL: {bad_sql}"
         except ValueError:
             pass
+
+    # 6) Persistent per-account chat history across logout/re-login + clear endpoint
+    assert client.get("/api/ai/history").status_code == 401
+    assert client.delete("/api/ai/history").status_code == 401
+
+    assert client.delete("/api/ai/history", headers=_headers(khach_tok)).status_code == 200
+    assert client.delete("/api/ai/history", headers=_headers(mgr_tok)).status_code == 200
+
+    saved_q = "Giá hiển thị trên website đã bao gồm thuế và phí dịch vụ chưa?"
+    saved_chat_res = client.post("/api/ai/chat", json={"message": saved_q}, headers=_headers(khach_tok))
+    assert saved_chat_res.status_code == 200, saved_chat_res.text
+
+    # Simulate logout + fresh login with a brand new token for the same account
+    khach_relogin_tok = _login("khach_an")
+    hist_res = client.get("/api/ai/history", headers=_headers(khach_relogin_tok))
+    assert hist_res.status_code == 200, hist_res.text
+    hist_items = hist_res.json()["items"]
+    assert len(hist_items) == 2
+    assert hist_items[0]["role"] == "user"
+    assert hist_items[0]["content"] == saved_q
+    assert hist_items[1]["role"] == "assistant"
+    assert "VAT" in hist_items[1]["content"]
+
+    # Another user must not see khach_an's conversation history
+    mgr_hist = client.get("/api/ai/history", headers=_headers(mgr_tok))
+    assert mgr_hist.status_code == 200
+    assert all(m["content"] != saved_q for m in mgr_hist.json()["items"])
+
+    del_res = client.delete("/api/ai/history", headers=_headers(khach_relogin_tok))
+    assert del_res.status_code == 200
+    assert del_res.json()["cleared"] == 2
+    assert client.get("/api/ai/history", headers=_headers(khach_relogin_tok)).json()["items"] == []
+    assert client.delete("/api/ai/history", headers=_headers(admin_tok)).status_code == 200

@@ -22,11 +22,59 @@ _BM25_B = 0.75
 _RRF_K = 60.0
 
 _STOP_WORDS = {
-    "va", "la", "cua", "cho", "co", "khong", "duoc", "trong", "nhung", "cac", "nay",
-    "khi", "voi", "tai", "den", "tu", "theo", "hay", "nhu", "the", "nao", "gi", "bao",
-    "nhieu", "thi", "ma", "de", "ban", "minh", "toi", "he", "thong", "nhe", "a",
-    "tung", "moi", "vay", "sao", "neu", "thi", "hoac", "nhung", "and", "for", "with",
-    "from", "this", "that", "are", "how", "can", "could", "would",
+    "va",
+    "la",
+    "cua",
+    "cho",
+    "co",
+    "khong",
+    "duoc",
+    "trong",
+    "nhung",
+    "cac",
+    "nay",
+    "khi",
+    "voi",
+    "tai",
+    "den",
+    "tu",
+    "theo",
+    "hay",
+    "nhu",
+    "the",
+    "nao",
+    "gi",
+    "bao",
+    "nhieu",
+    "thi",
+    "ma",
+    "de",
+    "ban",
+    "minh",
+    "toi",
+    "he",
+    "thong",
+    "nhe",
+    "a",
+    "tung",
+    "moi",
+    "vay",
+    "sao",
+    "neu",
+    "thi",
+    "hoac",
+    "nhung",
+    "and",
+    "for",
+    "with",
+    "from",
+    "this",
+    "that",
+    "are",
+    "how",
+    "can",
+    "could",
+    "would",
 }
 
 # Domain synonym & paraphrase expansion (pure CPU, covers general resort & ops vocabulary)
@@ -34,7 +82,8 @@ _DOMAIN_SYNONYMS: tuple[tuple[str, str], ...] = (
     ("dat nhat", "cao nhat vip sang nhat hang cao presidential"),
     ("dat tien", "cao nhat gia cao vip presidential"),
     ("re nhat", "thap nhat tiet kiem binh dan standard"),
-    ("bo dat", "huy phong huy don hoan phong"),
+    ("bo dat", "huy dat phong huy phong huy don hoan phong otp"),
+    ("otp", "xac nhan otp xac thuc otp huy dat phong tai quay"),
     ("huy don", "huy phong otp xac nhan hoan tien phi huy hoan coc"),
     ("huy phong", "huy don hoan tien phi huy coc otp xac nhan"),
     ("huy lich", "huy phong huy don otp xac nhan hoan tien"),
@@ -84,23 +133,69 @@ _DOMAIN_SYNONYMS: tuple[tuple[str, str], ...] = (
     ("phi dich vu", "hoa don chi tiet thue phu thu minh bach"),
     ("tro choi", "khu vui choi ve loai ve giai tri cong vien"),
     ("vui choi", "khu vui choi ve loai ve cong vien giai tri"),
-    ("hang phong", "loai phong standard superior deluxe family suite presidential suc chua toi da"),
-    ("suc chua", "hang phong loai phong standard superior deluxe family suite toi da khach"),
+    (
+        "hang phong",
+        "loai phong standard superior deluxe family suite presidential suc chua toi da",
+    ),
+    (
+        "suc chua",
+        "hang phong loai phong standard superior deluxe family suite toi da khach",
+    ),
     ("ve cong", "loai ve khu vui choi gia ve qr soat ve"),
     ("soat ve", "ve qr dien tu cong khu vui choi"),
     ("ngay le", "le am lich le duong lich tet gio to 30/4 2/9 phu thu"),
     ("an uong", "dich vu nha hang buffet spa"),
     ("spa", "dich vu thu gian massage xong hoi"),
-    ("chi nhanh", "ha noi da nang phu quoc nha trang da lat hoi an sa pa ha long hue tp hcm mien bac mien trung mien nam"),
+    (
+        "chi nhanh",
+        "ha noi da nang phu quoc nha trang da lat hoi an sa pa ha long hue tp hcm mien bac mien trung mien nam",
+    ),
     ("mien bac", "ha noi sa pa ha long chi nhanh"),
     ("mien trung", "da nang hoi an hue nha trang chi nhanh"),
     ("mien nam", "tp hcm phu quoc da lat chi nhanh"),
+    ("den muon", "22:00 22h ban dem khuya giu phong co bi huy xac nhan le tan khong tu huy"),
+    ("muon", "den muon 22:00 22h ban dem giu phong co bi huy xac nhan tra phong"),
+    ("22:00", "den muon ban dem giu phong co bi huy khong tu huy"),
+    ("22h", "den muon ban dem giu phong co bi huy khong tu huy"),
+    ("bi huy", "co bi huy giu phong den muon khong tu huy"),
+    ("giu phong", "duoc giu chac chan dat phong xong trang thai lich su thong bao website"),
+    ("duoc giu", "giu phong chac chan dat phong xong trang thai lich su thong bao"),
+    ("dat phong xong", "khi nao nhan duoc trang thai da xac nhan giu phong hop thong bao website"),
+    ("chac chan", "giu phong da xac nhan hop thong bao website lich su dat phong"),
+    ("email", "thong bao website trang thai don dat phong khong gui email khong co app"),
+    ("hoa don do", "vat cong tac xem hoa don le tan chi nhanh chung tu"),
+    ("nang cap", "doi hang phong doi ngay huy dat lai le tan chenh lech"),
+    ("ve cung", "ve qr dien tu khong can in giay quet ma"),
+    ("in ra giay", "ve qr dien tu khong can in giay quet ma"),
+    ("tra sau", "tien mat the tai quay dat coc 30% vietqr cho xac nhan"),
 )
 
 _REGION_MAP: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("Miền Bắc", ("ha noi", "sa pa", "sapa", "ha long", "quang ninh", "lao cai")),
-    ("Miền Trung", ("da nang", "hoi an", "quang nam", "hue", "thua thien hue", "nha trang", "khanh hoa")),
-    ("Miền Nam", ("tp.hcm", "ho chi minh", "sai gon", "phu quoc", "kien giang", "da lat", "lam dong")),
+    (
+        "Miền Trung",
+        (
+            "da nang",
+            "hoi an",
+            "quang nam",
+            "hue",
+            "thua thien hue",
+            "nha trang",
+            "khanh hoa",
+        ),
+    ),
+    (
+        "Miền Nam",
+        (
+            "tp.hcm",
+            "ho chi minh",
+            "sai gon",
+            "phu quoc",
+            "kien giang",
+            "da lat",
+            "lam dong",
+        ),
+    ),
 )
 
 
@@ -182,34 +277,45 @@ def _curated_policy_chunks() -> list[RagChunk]:
         RagChunk(
             chunk_id="policy:payment_methods",
             source="Chính sách thanh toán",
-            title="Các phương thức thanh toán được hỗ trợ (Tiền mặt, Thẻ & VietQR)",
+            title="Phương thức thanh toán (Tiền mặt, Thẻ, VietQR 30%–100% & Trả sau tại quầy)",
             content=(
-                "- **Tại quầy lễ tân chi nhánh**: Khách hàng có thể thanh toán trực tiếp bằng **Tiền mặt**, **Thẻ ngân hàng**, hoặc **Chuyển khoản / VietQR** khi nhận phòng hoặc trả phòng.\n"
-                "- **Khi đặt phòng trực tuyến trên website**: Hệ thống tạo mã **VietQR MB Bank** để chuyển khoản nhanh (hỗ trợ chọn **Đặt cọc tối thiểu 30%** hoặc **Thanh toán toàn bộ 100%**). Hệ thống tự động đối soát nội dung chuyển khoản và cập nhật đơn sang *Đã xác nhận* ngay khi nhận tiền."
+                "- **Đặt trực tuyến trên website**: Sau khi tạo đơn, hệ thống sinh mã **VietQR MB Bank** hỗ trợ chọn **Đặt cọc tối thiểu 30%** hoặc **Thanh toán toàn bộ 100%** để đối soát tự động và giữ phòng ngay (*Đã xác nhận*). Nếu chưa chuyển khoản ngay, đơn tạm ở trạng thái *Chờ xác nhận*.\n"
+                "- **Thanh toán tại khách sạn**: Tại quầy lễ tân chi nhánh, quý khách có thể thanh toán trực tiếp bằng **Tiền mặt**, **Thẻ ngân hàng**, hoặc **Chuyển khoản / VietQR** khi nhận phòng hoặc trả phòng."
             ),
             category="payment",
             audience="customer",
         ),
         RagChunk(
+            chunk_id="policy:booking_confirmation_and_hold",
+            source="Xác nhận & Giữ phòng",
+            title="Kiểm tra giữ phòng chắc chắn sau khi đặt xong và quy định nhận phòng muộn ban đêm",
+            content=(
+                "- **Khi nào nhận thông báo & làm sao biết phòng được giữ chắc chắn**: Hệ thống hoạt động hoàn toàn trên **website** (hiện chưa có ứng dụng di động và không gửi email tự động). Ngay sau khi đặt phòng xong và thanh toán cọc 30% hoặc 100% qua VietQR (hoặc được Lễ tân duyệt), đơn chuyển ngay sang trạng thái **Đã xác nhận** trong mục **Lịch sử / Đặt phòng** đồng thời báo chuông tại **Hộp Thông báo** trên tài khoản — đây là dấu hiệu phòng đã được giữ chắc chắn.\n"
+                "- **Đến nhận phòng muộn (ví dụ sau 22:00 đêm)**: Hệ thống **không tự động hủy ngang phòng** vào ban đêm đối với đơn đang *Chờ xác nhận* hoặc *Đã xác nhận*. Tuy nhiên, nếu dự kiến đến rất muộn, quý khách vui lòng gọi trước số điện thoại chi nhánh để Lễ tân ghi chú và sắp xếp giữ phòng thuận lợi."
+            ),
+            category="policy",
+            audience="customer",
+        ),
+        RagChunk(
             chunk_id="policy:cancel_and_refund",
             source="Chính sách hủy phòng & hoàn tiền",
-            title="Quy định hủy đặt phòng, phí hủy, hoàn cọc và xác thực OTP",
+            title="Quy định hủy đặt phòng, phí hủy, hoàn tiền 100% / hoàn cọc và xác nhận OTP tại quầy",
             content=(
-                "- **Điều kiện & phí hủy**: Khách được hủy đơn khi đang ở trạng thái *Chờ xác nhận* hoặc *Đã xác nhận* (trước khi nhận phòng). Hệ thống **không thu phí phạt hủy tự động** trước thời điểm nhận phòng.\n"
-                "- **Hoàn tiền cọc / đã thanh toán**: Nếu chưa thanh toán hoặc chưa cọc thì hủy không mất phí. Nếu đã chuyển khoản đặt cọc/thanh toán trước, Lễ tân hoặc Quản trị viên chi nhánh sẽ đối soát giao dịch trên hóa đơn để xử lý hoàn tiền hoặc hỗ trợ đổi lịch trực tiếp.\n"
-                "- **Thao tác hủy & OTP**: Tự đăng nhập tài khoản để bấm hủy trực tiếp, hoặc yêu cầu Lễ tân hủy giúp — khi hủy qua Lễ tân/Quản trị viên, hệ thống gửi mã **OTP 6 chữ số** (hiệu lực 10 phút) về chuông Thông báo trên tài khoản khách."
+                "- **Phí hủy & trạng thái áp dụng**: Khách được hủy đơn khi đang ở trạng thái *Chờ xác nhận* hoặc *Đã xác nhận* (trước khi nhận phòng). Hệ thống **không thu phí phạt hủy tự động** trước thời điểm nhận phòng.\n"
+                "- **Hoàn tiền / hoàn cọc**: Nếu đơn chưa thanh toán hoặc chưa cọc thì hủy không mất phí. Nếu đã chuyển khoản đặt cọc hoặc trả trước 100%, website hiện chưa tự động chuyển hoàn về tài khoản ngân hàng — bộ phận **Lễ tân hoặc Quản trị viên chi nhánh** sẽ đối soát giao dịch trên hóa đơn để xử lý hoàn tiền hoặc hỗ trợ đổi lịch trực tiếp cho quý khách.\n"
+                "- **Thao tác hủy & OTP**: Khách tự đăng nhập để bấm hủy trực tiếp, hoặc yêu cầu Lễ tân hủy giúp — khi hủy qua Lễ tân/Quản trị viên, hệ thống gửi mã **OTP 6 chữ số** (hiệu lực 10 phút) về **Hộp Thông báo** trên tài khoản khách."
             ),
             category="policy",
             audience="customer",
         ),
         RagChunk(
             chunk_id="policy:modify_booking",
-            source="Chính sách thay đổi lịch đặt phòng",
-            title="Cách thay đổi ngày nhận phòng và ngày trả phòng sau khi đã đặt",
+            source="Thay đổi lịch & Nâng hạng phòng",
+            title="Cách đổi ngày nhận/trả phòng hoặc nâng cấp hạng phòng sau khi đã đặt",
             content=(
-                "- Website hiện **chưa hỗ trợ chỉnh sửa trực tiếp ngày nhận phòng / trả phòng** ngay trên đơn đã tạo thành công.\n"
-                "- Để đổi lịch trước khi check-in: quý khách có thể hủy đơn hiện tại trên tài khoản rồi đặt lại theo ngày mới, hoặc liên hệ Lễ tân chi nhánh kiểm tra phòng trống và hỗ trợ dời lịch.\n"
-                "- **Chi phí phát sinh**: Không có phí phạt đổi ngày trước khi nhận phòng, nhưng **giá phòng sẽ được tính lại theo bảng giá của khoảng ngày mới** (nếu chuyển sang cuối tuần, mùa cao điểm hoặc ngày lễ có thể phát sinh chênh lệch giá)."
+                "- Website hiện **chưa hỗ trợ tự chỉnh sửa trực tiếp ngày nhận/trả phòng hoặc nâng cấp hạng phòng** ngay trên đơn đã tạo thành công.\n"
+                "- **Cách thực hiện trước khi check-in**: Quý khách có thể hủy đơn hiện tại trên tài khoản rồi đặt lại đơn mới theo ngày/hạng phòng mong muốn, hoặc **liên hệ trực tiếp Lễ tân chi nhánh** để kiểm tra phòng trống và hỗ trợ chuyển đổi/nâng cấp phòng.\n"
+                "- **Chi phí phát sinh**: Không có phí phạt đổi lịch trước khi nhận phòng, nhưng tiền phòng sẽ **tính lại theo bảng giá của khoảng ngày mới hoặc hạng phòng nâng cấp** (cộng/trừ chênh lệch nếu sang hạng cao hơn, cuối tuần hoặc ngày lễ)."
             ),
             category="policy",
             audience="customer",
@@ -229,10 +335,10 @@ def _curated_policy_chunks() -> list[RagChunk]:
         RagChunk(
             chunk_id="policy:invoice_and_taxes",
             source="Minh bạch hóa đơn & Chi phí",
-            title="Cách tính tổng chi phí, tiền phòng, dịch vụ, phụ thu và xem chi tiết hóa đơn",
+            title="Thuế VAT, phí dịch vụ, xuất hóa đơn công tác và xem chi tiết hóa đơn",
             content=(
-                "- **Bảng kê chi tiết**: Trên đơn đặt phòng của mình, quý khách bấm **Xem hóa đơn** để kiểm tra từng dòng chi tiết: tiền phòng theo từng đêm (đã tính mùa du lịch/ngày lễ), gói combo, vé khu vui chơi, các dịch vụ phát sinh tại chi nhánh và số tiền được giảm từ voucher.\n"
-                "- **Thuế & phụ thu**: Giá phòng và giá dịch vụ niêm yết là mức thu trực tiếp trên hóa đơn; hệ thống **không cộng ẩn thêm thuế VAT hay phí dịch vụ tách rời** ngoài các khoản hiển thị công khai trong chi tiết hóa đơn."
+                "- **Thuế & phí dịch vụ**: Giá phòng và giá dịch vụ niêm yết trên website là mức thu trực tiếp trên hóa đơn; hệ thống **không cộng ẩn thêm thuế VAT hay phí dịch vụ tách rời** ngoài các khoản hiển thị công khai trong chi tiết hóa đơn.\n"
+                "- **Bảng kê & xuất hóa đơn công tác (hóa đơn đỏ / VAT)**: Trên đơn đặt phòng, quý khách bấm **Xem hóa đơn** để kiểm tra chi tiết từng đêm phòng, combo, vé vui chơi, dịch vụ và tiền giảm voucher. Website hiện chưa hỗ trợ tự xuất hóa đơn đỏ VAT điện tử trực tuyến — nếu cần chứng từ/hóa đơn cho chuyến công tác, vui lòng liên hệ trực tiếp **Lễ tân chi nhánh** trước khi trả phòng để được hỗ trợ."
             ),
             category="pricing",
             audience="customer",
@@ -289,10 +395,11 @@ def _curated_policy_chunks() -> list[RagChunk]:
         RagChunk(
             chunk_id="policy:services_and_qr_tickets",
             source="Dịch vụ & Vé khu vui chơi QR",
-            title="Đặt dịch vụ chi nhánh, mua vé khu vui chơi & soát vé bằng mã QR",
+            title="Vé khu vui chơi QR điện tử (không cần in giấy), gói Combo & dịch vụ chi nhánh",
             content=(
-                "- **Vé khu vui chơi QR**: Khách có thể mua vé kèm phòng hoặc mua trực tiếp tại mục **Soát vé QR & Dịch vụ** để nhận mã vé QR điện tử dùng tại cổng. Giá vé phân theo đối tượng: *Người lớn* (trên 140cm), *Trẻ em* (100–140cm) và *Người cao tuổi* (từ 60 tuổi trở lên).\n"
-                "- **Dịch vụ chi nhánh (Spa, Ẩm thực, Đưa đón...)**: Khi khách tự đặt, chi phí ghi nhận ngay kèm QR thanh toán. Khi nhân viên/quản lý đặt dịch vụ hộ khách, hệ thống gửi **thông báo xác nhận** về tài khoản khách trước khi tính vào hóa đơn."
+                "- **Vé khu vui chơi QR điện tử**: Website phát hành **mã vé QR điện tử** ngay trên tài khoản/hóa đơn (gồm khi mua kèm phòng hoặc tại mục **Soát vé QR & Dịch vụ**). Quý khách chỉ cần đưa **mã QR trên điện thoại** để soát cổng, **không cần in vé cứng ra giấy**. Giá vé phân theo đối tượng: *Người lớn* (>140cm), *Trẻ em* (100–140cm) và *Người cao tuổi* (>=60 tuổi).\n"
+                "- **Gói Combo & Tour**: Hệ thống cung cấp các **gói Combo** nghỉ dưỡng trọn gói (Phòng + Vé vui chơi + Buffet/dịch vụ) và dịch vụ chi nhánh (Spa, Ẩm thực); hiện chưa tích hợp bán tour tham quan bên ngoài độc lập.\n"
+                "- **Dịch vụ chi nhánh**: Khách tự đặt sẽ ghi nhận ngay kèm QR thanh toán; khi nhân viên/quản lý đặt hộ, hệ thống gửi **thông báo xác nhận** về tài khoản khách trước khi tính tiền."
             ),
             category="services",
             audience="customer",
@@ -315,9 +422,15 @@ def _curated_policy_chunks() -> list[RagChunk]:
 def _load_db_catalog_chunks() -> list[RagChunk]:
     chunks: list[RagChunk] = []
     try:
-        branches = fetch_all("SELECT MaCN, TenCN, DiaChi, SDT FROM CHI_NHANH ORDER BY MaCN")
+        branches = fetch_all(
+            "SELECT MaCN, TenCN, DiaChi, SDT FROM CHI_NHANH ORDER BY MaCN"
+        )
         branch_map: dict[int, dict[str, Any]] = {}
-        region_groups: dict[str, list[str]] = {"Miền Bắc": [], "Miền Trung": [], "Miền Nam": []}
+        region_groups: dict[str, list[str]] = {
+            "Miền Bắc": [],
+            "Miền Trung": [],
+            "Miền Nam": [],
+        }
 
         for b in branches:
             b_id = int(b["MaCN"])
@@ -443,10 +556,20 @@ def _load_db_catalog_chunks() -> list[RagChunk]:
                     )
             b_combos = combo_by_cn.get(b_id, [])
             if b_combos:
-                lines.append("Combo nổi bật: " + "; ".join(f"{c['TenCombo']} ({int(c['GiaGoi']):,}đ)" for c in b_combos[:3]))
+                lines.append(
+                    "Combo nổi bật: "
+                    + "; ".join(
+                        f"{c['TenCombo']} ({int(c['GiaGoi']):,}đ)" for c in b_combos[:3]
+                    )
+                )
             b_sv = sv_by_cn.get(b_id, [])
             if b_sv:
-                lines.append("Dịch vụ nổi bật: " + "; ".join(f"{s['TenDV']} ({int(s['DonGia']):,}đ)" for s in b_sv[:5]))
+                lines.append(
+                    "Dịch vụ nổi bật: "
+                    + "; ".join(
+                        f"{s['TenDV']} ({int(s['DonGia']):,}đ)" for s in b_sv[:5]
+                    )
+                )
 
             chunks.append(
                 RagChunk(
@@ -509,14 +632,20 @@ def _load_db_catalog_chunks() -> list[RagChunk]:
 
 def build_rag_index(force: bool = False) -> dict[str, Any]:
     now = time.time()
-    if not force and _INDEX_CACHE["docs"] and (now - _INDEX_CACHE["built_at"]) < _CACHE_TTL_SECONDS:
+    if (
+        not force
+        and _INDEX_CACHE["docs"]
+        and (now - _INDEX_CACHE["built_at"]) < _CACHE_TTL_SECONDS
+    ):
         return _INDEX_CACHE
 
     docs: list[RagChunk] = []
     docs.extend(_curated_policy_chunks())
     docs.extend(_load_db_catalog_chunks())
 
-    doc_tokens: list[list[str]] = [tokenize(f"{d.title} {d.title} {d.content}") for d in docs]
+    doc_tokens: list[list[str]] = [
+        tokenize(f"{d.title} {d.title} {d.content}") for d in docs
+    ]
     df: dict[str, int] = {}
     doc_tf: list[dict[str, int]] = []
     doc_len: list[int] = []
@@ -614,7 +743,9 @@ def retrieve_knowledge(
         if bm25_scores[idx] <= 0.0 and ngram_scores[idx] < 0.14:
             continue
         doc = docs[idx]
-        rrf_score = (1.0 / (_RRF_K + bm25_rank_pos[idx])) + (0.7 / (_RRF_K + ngram_rank_pos[idx]))
+        rrf_score = (1.0 / (_RRF_K + bm25_rank_pos[idx])) + (
+            0.7 / (_RRF_K + ngram_rank_pos[idx])
+        )
         title_overlap = len(raw_q_tokens & set(tokenize(doc.title)))
         rrf_score += 0.005 * title_overlap
         if ma_cn is not None and doc.ma_cn == int(ma_cn):

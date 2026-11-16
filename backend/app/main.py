@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from .config import get_settings
 from .db import get_cursor
 from .routers import admin, ai_agent, auth, bank_webhook, bookings, catalog, finance, notifications, operations
+from .services.ai_chat_history import ensure_ai_chat_table
 
 settings = get_settings()
 
@@ -83,6 +84,7 @@ def ensure_schema_extensions() -> None:
             ) ENGINE=InnoDB
             """
         )
+    ensure_ai_chat_table()
 
 
 @asynccontextmanager

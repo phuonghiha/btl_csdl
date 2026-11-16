@@ -76,6 +76,12 @@ _INTENT_EXEMPLARS: dict[str, tuple[str, ...]] = {
         "hệ thống khách sạn có những chi nhánh nào ở miền bắc miền trung miền nam địa chỉ số điện thoại",
         "quy trình đặt cọc chuyển khoản đối soát tự động khi đặt online hoạt động ra sao",
         "các hạng phòng tiêu chuẩn đến tổng thống có sức chứa bao nhiêu người",
+        "đặt phòng xong khi nào nhận được xác nhận qua email hay thông báo và biết phòng được giữ chắc chắn",
+        "tôi đến khách sạn rất muộn ban đêm sau 22h thì phòng có bị hủy không",
+        "tôi muốn xuất hóa đơn đỏ hóa đơn vat công tác hoặc thanh toán trả sau tại khách sạn",
+        "nâng cấp sang hạng phòng khác hoặc đổi ngày sau khi đặt phòng thì làm thế nào",
+        "nếu hủy phòng có được hoàn lại 100 phần trăm tiền đã cọc hoặc thanh toán không",
+        "vé khu vui chơi đặt trên web là vé cứng hay vé điện tử qr có cần in ra giấy không",
     ),
     "bi_analytics": (
         "tóm tắt báo cáo doanh thu và công suất lấp đầy phòng các chi nhánh",
@@ -474,7 +480,16 @@ def classify_intent(
     greet_score = scores["greeting_or_help"]
     oos_score = scores["out_of_scope"]
 
-    # Detect non-domain / greeting / out-of-scope gracefully
+    # Detect non-domain / greeting / out-of-scope gracefully (even if city/date word like "hôm nay ở Hà Nội" appears)
+    has_hotel_vocab = bool(
+        re.search(
+            r"\b(phong|khach san|resort|dat|voucher|khuyen mai|uu dai|ve|khu vui choi|chi nhanh|hoa don|coc|huy|spa|buffet|combo|gia|otp|nhan phong|tra phong)\b",
+            norm,
+        )
+    )
+    if oos_score >= max(best_domain_score + 0.04, 0.20) and not has_hotel_vocab:
+        return RouteDecision("out_of_scope", {"out_of_scope"}, scores, oos_score, slots)
+
     has_any_slot = bool(branch_kw or region or checkin or room_type_hint or has_personal_cue or has_amusement_cue)
     if not has_any_slot:
         if greet_score >= max(best_domain_score, oos_score, 0.22):

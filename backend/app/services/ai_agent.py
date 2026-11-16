@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import time
 from typing import Any
 
 from fastapi import HTTPException
@@ -596,7 +597,7 @@ def _run_local_hybrid_agent(
             kept = [
                 c
                 for idx, c in enumerate(ordered[:2])
-                if idx == 0 or float(c.get("score") or 0.0) >= top_score * 0.72
+                if idx == 0 or float(c.get("score") or 0.0) >= top_score * 0.88
             ]
             sections.append("\n\n".join(f"**{c['title']}**\n{c['snippet']}" for c in kept))
         elif not sections:
@@ -720,14 +721,43 @@ def _run_gemini_agent(
     settings = get_settings()
     mode = _resolve_agent_mode(user)
     audience = "ops" if mode == "ops_bi_analyst" else "customer"
-    baseline_citations = retrieve_knowledge(message, top_k=3, audience=audience)
+    decision = classify_intent(message, history=history, explicit_ma_cn=ma_cn)
+    slots = decision.slots
+    branch_kw = slots.get("branch_kw")
+    effective_ma_cn = ma_cn
+    if effective_ma_cn is None and branch_kw:
+        branch_row = resolve_branch(branch_keyword=branch_kw)
+        if branch_row:
+            effective_ma_cn = int(branch_row["MaCN"])
+
+    if decision.primary_intent in ("greeting_or_help", "out_of_scope") or (
+        mode != "ops_bi_analyst" and ("bi_analytics" in decision.active_intents or "admin_sql" in decision.active_intents)
+    ):
+        return _run_local_hybrid_agent(user, message, history=history, ma_cn=ma_cn)
+
+    is_policy_only = decision.primary_intent == "policy_faq" and not branch_kw and not slots.get("region")
+    rag_query = f"{message} {branch_kw}".strip() if (slots.get("refers_prior_place") and branch_kw) else message
+    baseline_citations = retrieve_knowledge(
+        rag_query,
+        top_k=5,
+        audience=audience,
+        ma_cn=None if (slots.get("asks_all_branches") or is_policy_only) else effective_ma_cn,
+        prefer_categories=("policy", "payment", "pricing", "vouchers", "pricing_rules", "branches", "rooms")
+        if "policy_faq" in decision.active_intents
+        else None,
+    )
     rag_context = "\n".join(f"- {c['title']}: {c['snippet']}" for c in baseline_citations)
     system_prompt = (
-        "Bạn là Trợ lý AI của hệ thống Quản lý Khu nghỉ dưỡng & Khu vui chơi 3 miền. "
-        "Hãy trả lời ngắn gọn, thân thiện, chính xác bằng tiếng Việt tự nhiên, chỉ dựa trên dữ liệu từ công cụ và thông tin nghiệp vụ bên dưới. "
-        "TUYỆT ĐỐI KHÔNG nhắc tên tệp mã nguồn, sơ đồ ERD, câu lệnh SQL, thuật ngữ kỹ thuật lập trình hoặc cấu trúc database khi trả lời khách hàng. "
+        "Bạn là Trợ lý AI của hệ thống Quản lý Chuỗi Khách sạn & Khu vui chơi 3 miền (Aurelia). "
+        "Hãy trả lời ngắn gọn, thân thiện, rõ ràng bằng tiếng Việt tự nhiên.\n"
+        "NGUYÊN TẮC BẮT BUỘC:\n"
+        "1. CHỈ trả lời dựa trên thông tin nghiệp vụ bên dưới và kết quả JSON thực tế do công cụ trả về.\n"
+        "2. Tuyệt đối KHÔNG tự suy đoán hay bịa thêm các kênh/tính năng không tồn tại trên hệ thống (hệ thống CHỈ chạy trên website: KHÔNG gửi email xác nhận tự động, KHÔNG có app di động, KHÔNG tự xuất hóa đơn đỏ VAT điện tử online, KHÔNG có giờ hủy tự động 22:00); nếu thiếu chi tiết hãy nói rõ và hướng dẫn liên hệ Lễ tân chi nhánh.\n"
+        "3. Khi báo phòng trống, luôn nêu rõ giá mỗi đêm (GiaMoiDem) kèm tổng tiền toàn kỳ (TongTienKhoangNgay) và số đêm (nights).\n"
+        "4. TUYỆT ĐỐI KHÔNG nhắc tên tệp mã nguồn, sơ đồ ERD, câu lệnh SQL, thuật ngữ kỹ thuật lập trình hoặc cấu trúc database khi trả lời khách hàng.\n"
+        "5. Nếu câu hỏi nằm ngoài phạm vi đặt phòng/dịch vụ/quy định của khách sạn, hãy từ chối lịch sự.\n"
         f"Vai trò hiện tại: {capabilities_role_label(user)} (mode={mode}, branch_ids={(user or {}).get('branch_ids', [])}).\n\n"
-        f"Thông tin nghiệp vụ liên quan:\n{rag_context}"
+        f"Tài liệu nghiệp vụ liên quan:\n{rag_context}"
     )
 
     contents: list[dict[str, Any]] = []
@@ -742,12 +772,13 @@ def _run_gemini_agent(
         f"https://generativelanguage.googleapis.com/v1beta/models/"
         f"{settings.gemini_model}:generateContent?key={settings.gemini_api_key}"
     )
-    tools_payload = [{"functionDeclarations": _gemini_tool_declarations(user)}]
+    needs_live_tools = bool(decision.active_intents - {"policy_faq"})
+    tools_payload = [{"functionDeclarations": _gemini_tool_declarations(user)}] if needs_live_tools else None
 
     tool_traces: list[dict[str, Any]] = [
         {
             "tool": "retrieve_knowledge",
-            "args": {"query": message, "top_k": 3},
+            "args": {"query": message, "top_k": 5},
             "summary": f"Truy xuất {len(baseline_citations)} đoạn tri thức RAG nền",
         }
     ]
@@ -757,16 +788,19 @@ def _run_gemini_agent(
     final_text = ""
 
     with httpx.Client(timeout=25.0) as client:
-        for _ in range(3):
-            resp = client.post(
-                url,
-                json={
-                    "systemInstruction": {"parts": [{"text": system_prompt}]},
-                    "contents": contents,
-                    "tools": tools_payload,
-                    "generationConfig": {"temperature": 0.2},
-                },
-            )
+        for _ in range(5):
+            req_body: dict[str, Any] = {
+                "systemInstruction": {"parts": [{"text": system_prompt}]},
+                "contents": contents,
+                "generationConfig": {"temperature": 0.2},
+            }
+            if tools_payload:
+                req_body["tools"] = tools_payload
+
+            resp = client.post(url, json=req_body)
+            if resp.status_code in (429, 502, 503, 504):
+                time.sleep(1.2)
+                resp = client.post(url, json=req_body)
             resp.raise_for_status()
             payload = resp.json()
             candidates = payload.get("candidates") or []
